@@ -11,7 +11,7 @@ return [
     | stubs paths here, allowing you to customize the own stubs of the
     | model,controller or view. Or, you may simply stick with the CrudGenerator defaults!
     |
-    | Example: 'stub_path' => resource_path('path/to/views/stubs/')
+    | Example: 'stub_path' => resource_path('path/to/views/Admin/stubs/')
     | Default: "default"
     | Files:
     |       Controller.stub
@@ -58,7 +58,7 @@ return [
     ],
 
     'controller' => [
-        'namespace' => 'App\Http\Controllers',
+        'namespace' => 'App\Http\Controllers\Admin',
     ],
 
 ];

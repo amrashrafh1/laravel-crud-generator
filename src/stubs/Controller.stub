@@ -18,9 +18,9 @@ class {{modelName}}Controller extends Controller
      */
     public function index()
     {
-        ${{modelNamePluralLowerCase}} = {{modelName}}::paginate();
+        ${{modelNamePluralLowerCase}} = {{modelName}}::latest()->paginate(10);
 
-        return view('{{modelView}}.index', compact('{{modelNamePluralLowerCase}}'))
+        return view('Admin.{{modelView}}.index', compact('{{modelNamePluralLowerCase}}'))
             ->with('i', (request()->input('page', 1) - 1) * ${{modelNamePluralLowerCase}}->perPage());
     }
 
@@ -32,7 +32,7 @@ class {{modelName}}Controller extends Controller
     public function create()
     {
         ${{modelNameLowerCase}} = new {{modelName}}();
-        return view('{{modelView}}.create', compact('{{modelNameLowerCase}}'));
+        return view('Admin.{{modelView}}.create', compact('{{modelNameLowerCase}}'));
     }
 
     /**
@@ -41,13 +41,12 @@ class {{modelName}}Controller extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store({{modelName}}Request $request)
     {
-        request()->validate({{modelName}}::$rules);
 
-        ${{modelNameLowerCase}} = {{modelName}}::create($request->all());
+        ${{modelNameLowerCase}} = {{modelName}}::create($request->validated());
 
-        return redirect()->route('{{modelRoute}}.index')
+        return redirect()->route('admin.{{modelRoute}}.index')
             ->with('success', '{{modelName}} created successfully.');
     }
 
@@ -59,9 +58,9 @@ class {{modelName}}Controller extends Controller
      */
     public function show($id)
     {
-        ${{modelNameLowerCase}} = {{modelName}}::find($id);
+        ${{modelNameLowerCase}} = {{modelName}}::findOrFail($id);
 
-        return view('{{modelView}}.show', compact('{{modelNameLowerCase}}'));
+        return view('Admin.{{modelView}}.show', compact('{{modelNameLowerCase}}'));
     }
 
     /**
@@ -72,9 +71,9 @@ class {{modelName}}Controller extends Controller
      */
     public function edit($id)
     {
-        ${{modelNameLowerCase}} = {{modelName}}::find($id);
+        ${{modelNameLowerCase}} = {{modelName}}::findOrFail($id);
 
-        return view('{{modelView}}.edit', compact('{{modelNameLowerCase}}'));
+        return view('Admin.{{modelView}}.edit', compact('{{modelNameLowerCase}}'));
     }
 
     /**
@@ -84,13 +83,12 @@ class {{modelName}}Controller extends Controller
      * @param  {{modelName}} ${{modelNameLowerCase}}
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, {{modelName}} ${{modelNameLowerCase}})
+    public function update({{modelName}}Request $request, {{modelName}} ${{modelNameLowerCase}})
     {
-        request()->validate({{modelName}}::$rules);
 
-        ${{modelNameLowerCase}}->update($request->all());
+        ${{modelNameLowerCase}}->update($request->validated());
 
-        return redirect()->route('{{modelRoute}}.index')
+        return redirect()->route('admin.{{modelRoute}}.index')
             ->with('success', '{{modelName}} updated successfully');
     }
 
@@ -101,9 +99,9 @@ class {{modelName}}Controller extends Controller
      */
     public function destroy($id)
     {
-        ${{modelNameLowerCase}} = {{modelName}}::find($id)->delete();
+        ${{modelNameLowerCase}} = {{modelName}}::findOrFail($id)->delete();
 
-        return redirect()->route('{{modelRoute}}.index')
+        return redirect()->route('admin.{{modelRoute}}.index')
             ->with('success', '{{modelName}} deleted successfully');
     }
 }

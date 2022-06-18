@@ -1,11 +1,25 @@
-@extends('{{layout}}')
-
-@section('template_title')
-    {{modelTitle}}
-@endsection
-
-@section('content')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            Show {{modelTitle}}
+        </h2>
+    </x-slot>
     <div class="container-fluid">
+        <div class="content-header">
+        <div class="container-fluid ml-auto">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Dashboard</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">{{modelTitle}}</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+        </div>
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
@@ -17,7 +31,7 @@
                             </span>
 
                              <div class="float-right">
-                                <a href="{{ route('{{modelRoute}}.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
+                                <a href="{{ route('admin.{{modelRoute}}.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
                                   {{ __('Create New') }}
                                 </a>
                               </div>
@@ -45,12 +59,12 @@
                                             <td>{{ ++$i }}</td>
                                             {{tableBody}}
                                             <td>
-                                                <form action="{{ route('{{modelRoute}}.destroy',${{modelNameLowerCase}}->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('{{modelRoute}}.show',${{modelNameLowerCase}}->id) }}"><i class="fa fa-fw fa-eye"></i> Show</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('{{modelRoute}}.edit',${{modelNameLowerCase}}->id) }}"><i class="fa fa-fw fa-edit"></i> Edit</a>
+                                                <form action="{{ route('admin.{{modelRoute}}.destroy',${{modelNameLowerCase}}->id) }}" method="POST">
+                                                    <a class="btn btn-sm btn-primary " href="{{ route('admin.{{modelRoute}}.show',${{modelNameLowerCase}}->id) }}"><i class="fa fa-fw fa-eye"></i> Show</a>
+                                                    <a class="btn btn-sm btn-success" href="{{ route('admin.{{modelRoute}}.edit',${{modelNameLowerCase}}->id) }}"><i class="fa fa-fw fa-edit"></i> Edit</a>
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Delete</button>
+                                                    <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Delete</button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -64,4 +78,4 @@
             </div>
         </div>
     </div>
-@endsection
+</x-app-layout>
